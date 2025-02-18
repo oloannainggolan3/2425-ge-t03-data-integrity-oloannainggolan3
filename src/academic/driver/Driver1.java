@@ -1,12 +1,9 @@
 package academic.driver;
 
+
 import academic.model.Course;
 import academic.model.Enrollment;
 import academic.model.Student;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -16,9 +13,14 @@ import java.util.Scanner;
 public class Driver1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        List<Course> courses = new ArrayList<>();
-        List<Student> students = new ArrayList<>();
-        List<Enrollment> enrollments = new ArrayList<>();
+
+        // Menggunakan array dengan kapasitas maksimum 100 elemen
+        Course[] courses = new Course[100];
+        Student[] students = new Student[100];
+        Enrollment[] enrollments = new Enrollment[100];
+       
+
+        int courseCount = 0, studentCount = 0, enrollmentCount = 0, invalidCount = 0;
 
         while (true) {
             String input = scanner.nextLine().trim();
@@ -29,52 +31,62 @@ public class Driver1 {
             String[] parts = input.split("#");
             if (parts.length > 0) {
                 String command = parts[0];
+
                 switch (command) {
                     case "course-add":
                         if (parts.length == 5) {
-                            String code = parts[1];
-                            String name = parts[2];
-                            int credits = Integer.parseInt(parts[3]);
-                            String grade = parts[4];
-                        
-                            courses.add(new Course(code, name, credits, grade));
+                            String code = parts[1].trim();
+                            String name = parts[2].trim();
+                            int credits = Integer.parseInt(parts[3].trim());
+                            String grade = parts[4].trim();
+                            courses[courseCount++] = new Course(code, name, credits, grade);
                         }
-                        
                         break;
+
                     case "student-add":
                         if (parts.length == 5) {
-                            String code = parts[1];
-                            String name = parts[2];
-                            String year = parts[3];
-                            String major = parts[4];
-                            students.add(new Student(code, name, year, major));
+                            String code = parts[1].trim();
+                            String name = parts[2].trim();
+                            String year = parts[3].trim();
+                            String major = parts[4].trim();
+                            students[studentCount++] = new Student(code, name, year, major);
                         }
-                        Collections.sort(courses, Comparator.comparing(Course::getCode));
-                        Collections.sort(enrollments, Comparator.comparing(Enrollment::getCode));
                         break;
-                    case "enrollment-add":
+
+                        case "enrollment-add":
                         if (parts.length == 5) {
                             String courseCode = parts[1];
                             String studentId = parts[2];
                             String year = parts[3];
                             String semester = parts[4];
                             String[] defaultNotes = {"None"};
-                            enrollments.add(new Enrollment(courseCode, studentId, year, semester, defaultNotes));
+                            enrollments[enrollmentCount++]= new Enrollment(courseCode, studentId, year, semester, defaultNotes);
                         }
                         break;
+
+                            
+
                 }
             }
         }
         scanner.close();
 
-        for (Course course : courses) {
-            System.out.println(course);
-        }
-        for (Student student : students) {
-            System.out.println(student);
-        }
-        for (Enrollment enrollment : enrollments) {
-            System.out.println(enrollment);
-        }
+
+      // Cetak daftar courses
+      for (int i = courseCount - 1; i >= 0; i--) {
+        System.out.println(courses[i]);
     }
+    
+    
+    
+    // Cetak daftar students
+    for (int i = 0; i < studentCount; i++) {
+        System.out.println(students[i]);
+    }
+
+    // Cetak daftar enrollments yang valid
+    for (int i = 0; i < enrollmentCount; i++) {
+        System.out.println(enrollments[i]);
+    }
+}
 }

@@ -6,3 +6,4 @@ test_01 :
 
 test_02 :
 	cd bin && java academic.driver.Driver2
+	
