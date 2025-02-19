@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class Driver2 {
     public static void main(String[] _args) {
         Scanner scanner = new Scanner(System.in);
-        
 
         Course[] courses = new Course[100];
         Student[] students = new Student[100];
@@ -39,7 +38,7 @@ public class Driver2 {
                         if (parts.length == 5) {
                             String code = parts[1];
                             String name = parts[2];
-                            int credits = Integer.parseInt(parts[3]);
+                            String credits = parts[3];
                             String grade = parts[4];
                             courses[courseCount++] = new Course(code, name, credits, grade);
                         } else {
@@ -66,7 +65,7 @@ public class Driver2 {
                             String studentId = parts[2];
                             String year = parts[3];
                             String semester = parts[4];
-                            String[] defaultNotes = {"None"};
+                            String Notes = "None";
 
                             boolean courseExists = false;
                             boolean studentExists = false;
@@ -90,7 +89,7 @@ public class Driver2 {
                             } else if (!studentExists) {
                                 invalidEntries.append("invalid student|").append(studentId).append("\n");
                             } else {
-                                enrollments[enrollmentCount++] = new Enrollment(courseCode, studentId, year, semester, defaultNotes);
+                                enrollments[enrollmentCount++] = new Enrollment(courseCode, studentId, year, semester, Notes);
                             }
                         } else {
                             invalidEntries.append("invalid enrollment-add command|").append(line).append("\n");

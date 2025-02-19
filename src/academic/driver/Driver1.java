@@ -1,6 +1,5 @@
 package academic.driver;
 
-
 import academic.model.Course;
 import academic.model.Enrollment;
 import academic.model.Student;
@@ -13,14 +12,12 @@ import java.util.Scanner;
 public class Driver1 {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
-        // Menggunakan array dengan kapasitas maksimum 100 elemen
         Course[] courses = new Course[100];
         Student[] students = new Student[100];
         Enrollment[] enrollments = new Enrollment[100];
-       
-
-        int courseCount = 0, studentCount = 0, enrollmentCount = 0, invalidCount = 0;
+        int courseCount = 0;
+        int studentCount = 0;
+        int enrollmentCount = 0;
 
         while (true) {
             String input = scanner.nextLine().trim();
@@ -31,62 +28,50 @@ public class Driver1 {
             String[] parts = input.split("#");
             if (parts.length > 0) {
                 String command = parts[0];
-
                 switch (command) {
                     case "course-add":
                         if (parts.length == 5) {
-                            String code = parts[1].trim();
-                            String name = parts[2].trim();
-                            int credits = Integer.parseInt(parts[3].trim());
-                            String grade = parts[4].trim();
-                            courses[courseCount++] = new Course(code, name, credits, grade);
+                            String code = parts[1];
+                            String name = parts[2];
+                            String credits = parts[3];
+                            String passingGrade = parts[4];
+                            courses[courseCount++] = new Course(code, name, credits,passingGrade);
                         }
                         break;
-
                     case "student-add":
                         if (parts.length == 5) {
-                            String code = parts[1].trim();
-                            String name = parts[2].trim();
-                            String year = parts[3].trim();
-                            String major = parts[4].trim();
+                            String code = parts[1];
+                            String name = parts[2];
+                            String year = parts[3];
+                            String major = parts[4];
                             students[studentCount++] = new Student(code, name, year, major);
                         }
                         break;
-
-                        case "enrollment-add":
+                    case "enrollment-add":
                         if (parts.length == 5) {
                             String courseCode = parts[1];
                             String studentId = parts[2];
                             String year = parts[3];
                             String semester = parts[4];
-                            String[] defaultNotes = {"None"};
-                            enrollments[enrollmentCount++]= new Enrollment(courseCode, studentId, year, semester, defaultNotes);
+                            String notes = "None";
+                            enrollments[enrollmentCount++] = new Enrollment(courseCode, studentId, year, semester, notes);
                         }
                         break;
-
-                            
-
                 }
             }
         }
         scanner.close();
 
+        for (int i = courseCount - 1; i >= 0; i--) {
+            System.out.println(courses[i]);
+        }
 
-      // Cetak daftar courses
-      for (int i = courseCount - 1; i >= 0; i--) {
-        System.out.println(courses[i]);
+        for (int i = studentCount - 1; i >= 0; i--) {
+            System.out.println(students[i]);
+        }
+        
+        for (int i = enrollmentCount - 1; i >= 0; i--) {
+            System.out.println(enrollments[i]);
+        }
     }
-    
-    
-    
-    // Cetak daftar students
-    for (int i = 0; i < studentCount; i++) {
-        System.out.println(students[i]);
-    }
-
-    // Cetak daftar enrollments yang valid
-    for (int i = 0; i < enrollmentCount; i++) {
-        System.out.println(enrollments[i]);
-    }
-}
 }
